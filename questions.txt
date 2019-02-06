@@ -1,0 +1,5 @@
+Question 1 (Chapter 3, Question 3.3):
+
+Question 2 (Chapter 3, Question 3.8):
+The purpose of the execute bit is that it allows the user to enter the directory.
+This means that the user can acess files and directories inside the directory.
