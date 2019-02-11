@@ -29,7 +29,7 @@ long int days(long int a, long int b){
     return days;
 }
 
-int calculateBirthday(int day, int month, int sysday, int sysmonth, int *months){
+int calculateBirthday(int day, int month, int sysday, int sysmonth,int year, int *months){
     int found = 0;
     int days = 0;
     int i = sysmonth;
@@ -38,6 +38,13 @@ int calculateBirthday(int day, int month, int sysday, int sysmonth, int *months)
     int newMonth = 0;
     printf("day:%d, month %d, sysday:%d, sysmonth:%d\n", day,month,sysday,sysmonth);
     while(!found){
+        if(year %4 == 0 && year %100 != 0){
+           months[1] = 29;
+        }else{
+           months[1] = 28;
+        }
+     
+     
         if(wrapAround){
             i = 1;
         }
@@ -46,7 +53,7 @@ int calculateBirthday(int day, int month, int sysday, int sysmonth, int *months)
                 j = 1;
                 days++;
             }
-            for(j; j < months[i-1]; j++){
+            for(j; j < months[i]; j++){
                 printf("i:%d, j:%d\n", i,j);
                 if(i == month && j == day){
 
@@ -59,6 +66,7 @@ int calculateBirthday(int day, int month, int sysday, int sysmonth, int *months)
             }
         }
         wrapAround = 1;
+        year++;
     }
 }
 
@@ -66,26 +74,31 @@ int calculateBirthday(int day, int month, int sysday, int sysmonth, int *months)
 int main(int argc, char *argv[]){
     int months[12] = {31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
     time_t timeInSeconds;
+   
     
 
 
     long int offset = 0;
     timeInSeconds = time(NULL);
+ 
     if(argc > 1){
         offset = 86400 * atoi(argv[1]);
         timeInSeconds = timeInSeconds + offset;
     }
+    struct tm *info;
+    info = localtime(&timeInSeconds);
+    
 
-    long int temp = timeInSeconds;
-    int year = 0;
-    while(temp > 0){
-        year++;
-        temp -= YEAR_IN_SECONDS;
-    }
-    year += 1970;
-    if(year % 400 == 0 && year % 100 != 0){
-        months[1] = 29; //account for leap year 
-    }
+//     long int temp = timeInSeconds;
+//     int year = 0;
+//     while(temp > 0){
+//         year++;
+//         temp -= YEAR_IN_SECONDS;
+//     }
+//     year += 1970;
+//     if(year % 400 == 0 && year % 100 != 0){
+//         months[1] = 29; //account for leap year 
+//     }
     char buf[32];
     char buf2[32];
     char userID[32];
@@ -119,7 +132,7 @@ int main(int argc, char *argv[]){
         long int sysmonth = ceil(strippedEpoch/3600/24/12) -1; //calculate # months, subtract 1 to account for correct month format
         long int sysday = ceil((strippedEpoch%2629743)/86400); //calculate # days
         printf("calculated month:%ld, day:%ld\n", sysmonth,sysday);
-        int days = calculateBirthday(day, month, sysday, sysmonth, months);
+        int days = calculateBirthday(day, month, info.tm_mday, info.tm_mon, months);
         if(days == 0){
             printf("Happy Birthday, %s!\n", userID);
         }else{
