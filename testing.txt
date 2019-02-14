@@ -1,3 +1,55 @@
+test 1: Today's my birthday
+
+[noah@noahj CP367]$ thday.c
+bash: thday.c: command not found
+[noah@noahj CP367]$ code birthday.c
+[noah@noahj CP367]$ ./birthday
+offset is:0hello, noah
+Wed Feb 13 20:15:11 EST 2019
+Enter your day of birth (DD):13
+Enter your month of birth (MM):02
+Happy Birthday, noah!
+
+test 2: tomorrow's my birthday
+[noah@noahj CP367]$ ./birthday
+hello, noah
+Wed Feb 13 20:16:33 EST 2019
+Enter your day of birth (DD):14
+Enter your month of birth (MM):02
+There are 1 days until your birthday.
+
+test 3: yesterday was my birthday
+[noah@noahj CP367]$ ./birthday
+hello, noah
+Wed Feb 13 20:17:04 EST 2019
+Enter your day of birth (DD):12
+Enter your month of birth (MM):02
+There are 364 days until your birthday.
+
+test 4: offseting today's date backwards
+[noah@noahj CP367]$ ./birthday -100
+hello, noah
+Mon Nov  5 20:17:59 EST 2018
+Enter your day of birth (DD):05
+Enter your month of birth (MM):11
+Happy Birthday, noah!
+
+test 5: offseting today's date forward
+[noah@noahj CP367]$ ./birthday 250
+hello, noah
+Mon Oct 21 21:18:24 EDT 2019
+Enter your day of birth (DD):11
+Enter your month of birth (MM):08
+There are 295 days until your birthday.
+
+test 6: birthday on a leap year
+[noah@noahj CP367]$ ./birthday
+hello, noah
+Wed Feb 13 20:22:09 EST 2019
+Enter your day of birth (DD):29
+Enter your month of birth (MM):02
+There are 381 days until your birthday.
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <string.h>
@@ -102,3 +154,4 @@ int main(int argc, char *argv[]){
         }
     }
 }
+
